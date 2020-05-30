@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'app.dart';
 
-class LoginScreen extends StatelessWidget {
+class RegisterScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Color btnColor = Theme.of(context).buttonTheme.colorScheme.background;
