@@ -3,10 +3,6 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'package:firebase_auth/firebase_auth.dart';
 
-/*void auth() {
-  runApp(MyApp());
-}*/
-
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final GoogleSignIn _googleSignIn = GoogleSignIn();
 Future<FirebaseUser> _handleSigninWithGoogle() async {
@@ -43,54 +39,3 @@ Future<FirebaseUser> _handleSigninWithEmail(String email, String password) async
   final FirebaseUser currentUser = await FirebaseAuth.instance.currentUser();
   print("Signed in user:");
 }
-/*
-class MyApp extends StatelessWidget {
-  final emailController = TextEditingController();
-  final passController = TextEditingController();
-
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Welcome to Flutter',
-      home: Scaffold(
-        appBar: AppBar(
-            title: Text("Hello")
-        ),
-        body: new Container(
-          child: new Column(
-            children: [
-              new Container(
-                child: new TextField(
-                  controller: emailController,
-                  decoration: InputDecoration(
-                      border: InputBorder.none,
-                      hintText: 'Email'
-                  ),
-                ),
-              ),
-              new Container(
-                child: TextField(
-                  controller: passController,
-                  decoration: InputDecoration(
-                      border: InputBorder.none,
-                      hintText: 'Password'
-                  ),
-                ),
-              ),
-              new Container(
-                  child: FlatButton(
-                    onPressed: () {
-                      _handleSigninWithGoogle();
-                    },
-                    child: Text(
-                        "login"
-                    ),
-                  )
-              )
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
- */
