@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'home_screen.dart';
+import 'login.dart';
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -29,6 +30,9 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
         brightness: Brightness.dark,
       ),
+      routes: {
+        '/login': (_) => LoginScreen(),
+      },
       home: HomeScreen(),
       debugShowCheckedModeBanner: false,
     );
@@ -71,8 +75,12 @@ class TabBarItem {
 
 final List<TabBarItem> items = [
   TabBarItem(icon: Icon(Icons.history), title: 'Settings', route: (_) {}),
-  TabBarItem(icon: Icon(Icons.local_grocery_store), title: 'Supplies', route: (_) {
-    // TODO
-  }),
-  TabBarItem(icon: Icon(Icons.my_location), title: 'Testing Sites', route: (_) {}),
+  TabBarItem(
+      icon: Icon(Icons.local_grocery_store),
+      title: 'Supplies',
+      route: (context) {
+        Navigator.of(context).pushReplacementNamed('/');
+      }),
+  TabBarItem(
+      icon: Icon(Icons.my_location), title: 'Testing Sites', route: (_) {}),
 ];

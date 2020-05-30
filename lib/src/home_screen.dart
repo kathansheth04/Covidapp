@@ -117,7 +117,9 @@ class HomeScreen extends StatelessWidget {
           ),
           IconButton(
             icon: const Icon(Icons.account_circle),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).pushNamed('/login');
+            },
           ),
         ],
       ),
