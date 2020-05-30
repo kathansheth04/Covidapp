@@ -84,7 +84,9 @@ class LoginScreen extends StatelessWidget {
               width: 370,
               padding: EdgeInsets.all(10.0),
               child: RaisedButton(
-                onPressed: () => {},
+                onPressed: () {
+                  Navigator.of(context).pushNamed('/register');
+                },
                 textColor: btnTextColor,
                 color: btnColor,
                 shape: RoundedRectangleBorder(
@@ -98,7 +100,6 @@ class LoginScreen extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: BottomTabBar(items: items, selectedIndex: 0),
     );
   }
 }
