@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'app.dart';
@@ -109,6 +110,8 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final BaseAuth auth = Provider.of(context);
+    final FirebaseUser user = auth.getCurrentUser();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Supplies'),
@@ -120,8 +123,7 @@ class HomeScreen extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.account_circle),
             onPressed: () async {
-              final BaseAuth auth = Provider.of(context);
-              if (auth.getCurrentUser() == null) {
+              if (user == null) {
                 print('Logging in');
                 Navigator.of(context).pushNamed('/login');
               } else {
@@ -143,6 +145,12 @@ class HomeScreen extends StatelessWidget {
         items: items,
         selectedIndex: 1,
       ),
+      floatingActionButton: user != null ? FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context).pushNamed('/add');
+        },
+        child: const Icon(Icons.add),
+      ) : null,
     );
   }
 }

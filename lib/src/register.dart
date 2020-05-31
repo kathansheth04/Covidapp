@@ -54,7 +54,6 @@ class RegisterScreenState extends State<RegisterScreen> {
                   ),
                   controller: _emailController,
                   validator: (input) => input.isEmpty ? 'You must enter an email' : null,
-                  autovalidate: true,
                 ),
               ),
               new Container(
@@ -99,12 +98,12 @@ class RegisterScreenState extends State<RegisterScreen> {
               new Container(
                 padding: EdgeInsets.all(8.0),
                 child: RaisedButton(
-                  onPressed: (_formKey?.currentState != null) && passwordsMatch && _formKey.currentState.validate() ? () async {
-                    if (!passwordsMatch) return;
+                  onPressed: () async {
+                    if (!passwordsMatch || !_formKey.currentState.validate()) return;
                     final BaseAuth auth = Provider.of(context);
                     await auth.signUp(_emailController.text, _passwordController.text);
                     Navigator.of(context).pop();
-                  } : null,
+                  },
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)),
                   padding: const EdgeInsets.all(16.0),
@@ -117,7 +116,6 @@ class RegisterScreenState extends State<RegisterScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: BottomTabBar(items: items, selectedIndex: 0),
     );
   }
 }

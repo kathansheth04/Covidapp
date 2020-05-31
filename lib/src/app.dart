@@ -4,6 +4,7 @@ import 'home_screen.dart';
 import 'login.dart';
 import 'register.dart';
 import 'auth.dart';
+import 'add.dart';
 
 class MyApp extends StatelessWidget {
   final BaseAuth auth;
@@ -47,6 +48,7 @@ class MyApp extends StatelessWidget {
         routes: {
           '/login': (_) => LoginScreen(),
           '/register': (_) => RegisterScreen(),
+          '/add': (_) => AddScreen(),
         },
         home: HomeScreen(),
         debugShowCheckedModeBanner: false,

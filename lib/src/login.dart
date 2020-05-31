@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'auth.dart';
 import 'app.dart';
@@ -61,7 +62,6 @@ class LoginScreenState extends State<LoginScreen> {
                   input.isEmpty
                       ? 'You must enter an email'
                       : null,
-                  autovalidate: true,
                 ),
               ),
               new Container(
@@ -83,19 +83,18 @@ class LoginScreenState extends State<LoginScreen> {
                   input.isEmpty
                       ? 'You must enter a password'
                       : null,
-                  autovalidate: true,
                 ),
               ),
               new Container(
                 padding: EdgeInsets.all(10.0),
                 child: RaisedButton(
-                  onPressed: (_formKey?.currentState != null) &&
-                      _formKey.currentState.validate() ? () async {
+                  onPressed: () async {
+                    if (!_formKey.currentState.validate()) return;
                     try {
                       await auth.signInWithEmail(
                           _emailController.text, _passwordController
                           .text);
-                    } on AuthException catch (e) {
+                    } on PlatformException catch (e) {
                       String error;
                       switch (e.code) {
                         case 'ERROR_INVALID_EMAIL':
@@ -112,9 +111,10 @@ class LoginScreenState extends State<LoginScreen> {
                       _scaffoldKey.currentState.showSnackBar(
                         SnackBar(content: Text(error)),
                       );
+                      return;
                     }
                     Navigator.of(context).pop();
-                  } : null,
+                  },
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)),
                   padding: const EdgeInsets.all(16.0),

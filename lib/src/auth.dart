@@ -33,8 +33,8 @@ Future<FirebaseUser> _handleSigninWithEmail(
       .signInWithEmailAndPassword(email: email, password: password);
   final FirebaseUser user = authResult.user;
 
-  assert(user != null);
-  assert(await user.getIdToken() != null);
+  //assert(user != null);
+  //assert(await user.getIdToken() != null);
 
   print("Signed in user:");
   return user;
