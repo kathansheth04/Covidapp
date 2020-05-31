@@ -22,7 +22,8 @@ import 'package:firebase_database/firebase_database.dart';
       'itemName': itemname,
       'price': price,
       'Address': address,
-      'downvote_count' : "0"
+      'downvote_count' : "0",
+      'Timestamp' : DateTime.now()
     });
     print("updated");
     checkForValue();
