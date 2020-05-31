@@ -10,7 +10,9 @@ Covidapp is the ultimate survival kit during the coronavirus pandemic. As a nati
 
 # Video Demonstration of the App
 
+https://drive.google.com/file/d/1p_1Qk-FKiKcvh79bSjl_oMesQSY4Hg3G/view
 
+(download the video from google drive)
 
 # Development Environment and softwares Used
 
