@@ -20,14 +20,12 @@ class LoginScreen extends StatelessWidget {
               padding: EdgeInsets.all(10.0),
               child: TextField(
                 decoration: new InputDecoration(
-                  border: const OutlineInputBorder(
-                    borderSide:
-                        const BorderSide(color: Colors.orange, width: 2.0),
+                  enabledBorder: const OutlineInputBorder(
+                    borderSide: const BorderSide(color: Colors.orange, width: 2.0),
                   ),
                   hintText: 'Enter your email ID',
                   labelText: 'Email',
-                  contentPadding:
-                      new EdgeInsets.fromLTRB(20.0, 10.0, 100.0, 10.0),
+                  contentPadding: new EdgeInsets.fromLTRB(20.0, 10.0, 100.0, 10.0),
                 ),
               ),
             ),
@@ -36,14 +34,12 @@ class LoginScreen extends StatelessWidget {
               padding: EdgeInsets.all(10.0),
               child: TextField(
                 decoration: new InputDecoration(
-                  border: const OutlineInputBorder(
-                    borderSide: const BorderSide(
-                        color: Colors.orange, width: 2.0),
+                  enabledBorder: const OutlineInputBorder(
+                    borderSide: const BorderSide(color: Colors.orange, width: 2.0),
                   ),
-                  hintText: 'Enter your password here',
-                  labelText: 'Password',
-                  contentPadding:
-                      new EdgeInsets.fromLTRB(20.0, 10.0, 100.0, 10.0),
+                  hintText: 'Enter your email ID',
+                  labelText: 'Email',
+                  contentPadding: new EdgeInsets.fromLTRB(20.0, 10.0, 100.0, 10.0),
                 ),
               ),
             ),
@@ -54,7 +50,7 @@ class LoginScreen extends StatelessWidget {
               child: RaisedButton(
                 onPressed: () => {},
                 textColor: btnTextColor,
-                color: btnColor,
+                color: Colors.orange,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10)),
                 padding: const EdgeInsets.all(8.0),
@@ -70,7 +66,7 @@ class LoginScreen extends StatelessWidget {
               child: RaisedButton(
                 onPressed: () => {},
                 textColor: btnTextColor,
-                color: btnColor,
+                color: Colors.orange,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10)),
                 padding: const EdgeInsets.all(8.0),
@@ -88,7 +84,7 @@ class LoginScreen extends StatelessWidget {
                   Navigator.of(context).pushNamed('/register');
                 },
                 textColor: btnTextColor,
-                color: btnColor,
+                color: Colors.orange,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10)),
                 padding: const EdgeInsets.all(8.0),
