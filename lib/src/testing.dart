@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'app.dart';
 
 
-class HomeScreen extends StatelessWidget {
+class TestScreen extends StatelessWidget {
   final List<Site> Sites = [
     Site(
       clinicDescription: 'VA Clinic',

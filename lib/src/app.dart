@@ -4,8 +4,8 @@ import 'home_screen.dart';
 import 'login.dart';
 import 'register.dart';
 import 'add.dart';
-import 'test.dart';
-import 'settings.dart';
+import 'testing.dart';
+//import 'settings.dart';
 import 'auth.dart';
 
 
@@ -40,9 +40,8 @@ class MyApp extends StatelessWidget {
           '/login': (_) => LoginScreen(),
           '/register': (_) => RegisterScreen(),
           '/add': (_) => AddScreen(),
-          '/home' : (_) => HomeScreen(),
           '/test': (_) => TestScreen(),
-          '/settings': (_) => SettingsScreen(),
+          //'/settings': (_) => SettingsScreen(),
         },
         home: HomeScreen(),
         debugShowCheckedModeBanner: false,
