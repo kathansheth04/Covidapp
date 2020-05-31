@@ -132,6 +132,12 @@ class HomeScreen extends StatelessWidget {
               }
             },
           ),
+          IconButton(
+            icon: const Icon(Icons.settings),
+            onPressed: () {
+              Navigator.of(context).pushNamed('/settings');
+            },
+          )
         ],
       ),
       body: Padding(
