@@ -15,7 +15,7 @@ Covidapp is the ultimate survival kit during the coronavirus pandemic. As a nati
 # Development Environment and softwares Used
 
 * [Flutter with Dart](https://flutter.dev/)
-* [Testing sites in California Api](https://covid-19-testing.github.io/locations/california/complete.json)
+* [Testing sites in California Api](https://covid-19-testing.github.io/locations/california/complete.json) from Postman
 * [Firebase for authentication and storing information in Realtime Database](https://firebase.google.com/)
 * [Figma to sktech app UI](https://www.figma.com/)
 
