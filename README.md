@@ -30,7 +30,7 @@ Covidapp is the ultimate survival kit during the coronavirus pandemic. As a nati
 
 # Team
 
-Kathan Sheth (sheth.kathan@gmail.com)
-Anirudh Balaji (anire.balaji@gmail.com)
-Sashv Dave (davesashv@gmail.com)
-Chenghao li (chenghaoli36@gmail.com)
+* Kathan Sheth (sheth.kathan@gmail.com)
+* Anirudh Balaji (anire.balaji@gmail.com)
+* Sashv Dave (davesashv@gmail.com)
+* Chenghao li (chenghaoli36@gmail.com)
