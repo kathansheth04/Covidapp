@@ -1,7 +1,11 @@
+import 'dart:convert';
+
+import 'package:covidapp/src/url_launcher.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
 import 'app.dart';
 import 'auth.dart';
 import 'supplies_backend.dart';
@@ -70,6 +74,12 @@ class HomeScreenState extends State<HomeScreen> {
         Theme.of(context).textTheme.headline5.copyWith(color: Colors.white);
     final String time = fancyTime(DateTime.now().difference(item.spotted));
 
+    final Future<String> imageURLFuture = () async {
+      final res = await http.get("https://?query=${item.itemDescription}");
+      final r = json.decode(res.body);
+      return r['results'][0]['urls']['regular'] as String;
+    }();
+
     return Container(
       margin: const EdgeInsets.only(bottom: 8),
       child: Card(
@@ -79,9 +89,9 @@ class HomeScreenState extends State<HomeScreen> {
               alignment: AlignmentDirectional.bottomStart,
               children: [
                 Image.network(
-                  "https://assets.bonappetit.com/photos/5c62e4a3e81bbf522a9579ce/master/pass/milk-bread.jpg",
+                  "https://source.unsplash.com/500x500?${Uri.encodeQueryComponent(item.itemDescription)}",
                   fit: BoxFit.fitHeight,
-                  color: Colors.black.withAlpha(89 /*35%*/),
+                  color: Colors.black.withAlpha(89 /* 35%*/),
                   colorBlendMode: BlendMode.darken,
                 ),
                 Padding(
@@ -104,7 +114,9 @@ class HomeScreenState extends State<HomeScreen> {
               alignment: MainAxisAlignment.start,
               children: [
                 FlatButton.icon(
-                  onPressed: () {},
+                  onPressed: () {
+                    openMap(item.address);
+                  },
                   icon: const Icon(Icons.directions),
                   label: const Text('DIRECTIONS'),
                 ),
@@ -174,11 +186,13 @@ class HomeScreenState extends State<HomeScreen> {
             if (i < _lSupplies.length) {
               return buildItem(_, _lSupplies[i]);
             } else {
-              return _hasMore ? Center(
-                child: CircularProgressIndicator(
-                  value: null,
-                ),
-              ) : null;
+              return _hasMore
+                  ? Center(
+                      child: CircularProgressIndicator(
+                        value: null,
+                      ),
+                    )
+                  : null;
             }
           },
           itemCount: _lSupplies.length + 1,
