@@ -5,9 +5,9 @@ import 'login.dart';
 import 'register.dart';
 import 'add.dart';
 import 'testing.dart';
+
 //import 'settings.dart';
 import 'auth.dart';
-
 
 class MyApp extends StatelessWidget {
   final BaseAuth auth;
@@ -70,7 +70,7 @@ class BottomTabBar extends StatelessWidget {
           ),
       ],
       onTap: (index) {
-        items[index].route(context);
+        if (selectedIndex != index) items[index].route(context);
       },
     );
   }
@@ -93,5 +93,9 @@ final List<TabBarItem> items = [
         Navigator.of(context).pushReplacementNamed('/');
       }),
   TabBarItem(
-      icon: Icon(Icons.my_location), title: 'Testing Sites', route: (_) {}),
+      icon: Icon(Icons.my_location),
+      title: 'Testing Sites',
+      route: (context) {
+        Navigator.of(context).pushReplacementNamed('/test');
+      }),
 ];

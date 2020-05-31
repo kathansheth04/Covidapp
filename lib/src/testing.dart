@@ -1,28 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'app.dart';
+import 'testingsite.dart';
+import 'url_launcher.dart';
 
+class TestScreen extends StatefulWidget {
+  @override
+  TestScreenState createState() => TestScreenState();
+}
 
-class TestScreen extends StatelessWidget {
-  final List<Site> Sites = [
+class TestScreenState extends State<TestScreen> {
+  final List<Site> sites = [
     Site(
       clinicDescription: 'VA Clinic',
       number: '(800)-455-0057',
       address: '39199 Liberty St',
-      city: City.Fremont(location: 'Union Landing'),
+      city: 'Fremont',
     ),
     Site(
       clinicDescription: 'CVS Site',
       number: '(559)-451-3486',
       address: '4987 N Fresno St',
-      city: City.Fresno(location: 'Union Landing'),
+      city: 'Fresno',
     ),
-
   ];
 
-  Widget buildItem(BuildContext context, int index) {
-    final Site site = Sites[index];
+  Future<List<Site>> _sites;
+
+  Widget buildItem(BuildContext context, Site site) {
     final TextStyle titleStyle =
-    Theme.of(context).textTheme.headline5.copyWith(color: Colors.white);
+        Theme.of(context).textTheme.headline5.copyWith(color: Colors.white);
 
     return Container(
       margin: const EdgeInsets.only(bottom: 8),
@@ -32,11 +39,10 @@ class TestScreen extends StatelessWidget {
             Stack(
               alignment: AlignmentDirectional.bottomStart,
               children: [
-
                 Padding(
                   padding: const EdgeInsets.all(8),
                   child: Text(
-                    '${site.clinicDescription} in ${site.city.name}',
+                    '${site.clinicDescription} in ${site.city}',
                     style: titleStyle,
                   ),
                 ),
@@ -46,14 +52,14 @@ class TestScreen extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
               child: Text(
                 '${site.clinicDescription} is available for testing at ${site.address}, '
-                    'and can be contacted at ${site.number}.',
+                'and can be contacted at ${site.number}.',
               ),
             ),
             ButtonBar(
               alignment: MainAxisAlignment.start,
               children: [
                 FlatButton.icon(
-                  onPressed: () {},
+                  onPressed: () async { await openMap(site.address); },
                   icon: const Icon(Icons.directions),
                   label: const Text('DIRECTIONS'),
                 ),
@@ -68,6 +74,20 @@ class TestScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _sites = () async {
+      final geolocator = Geolocator();
+      final position = await geolocator.getCurrentPosition();
+      final state = stateNames[(await geolocator.placemarkFromPosition(position))
+          .first
+          .administrativeArea];
+      print('State = $state');
+      return await testingSites(position, state);
+    }();
   }
 
   @override
@@ -90,14 +110,29 @@ class TestScreen extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.only(top: 8, left: 8, right: 8),
-        child: ListView.builder(
-          itemBuilder: buildItem,
-          itemCount: Sites.length,
+        child: FutureBuilder(
+          future: _sites,
+          builder: (_, snapshot) {
+            if (snapshot.hasData) {
+              return ListView.builder(
+                itemBuilder: (_, index) => buildItem(_, snapshot.data[index]),
+                itemCount: snapshot.data.length,
+              );
+            } else if (snapshot.hasError) {
+              return Center(child: Text(snapshot.error.toString()));
+            } else {
+              return Center(
+                child: CircularProgressIndicator(
+                  value: null,
+                ),
+              );
+            }
+          },
         ),
       ),
       bottomNavigationBar: BottomTabBar(
         items: items,
-        selectedIndex: 1,
+        selectedIndex: 2,
       ),
     );
   }
@@ -107,7 +142,7 @@ class Site {
   final String clinicDescription;
   final String number;
   final String address;
-  final City city;
+  final String city;
 
   Site({
     @required this.clinicDescription,
@@ -115,18 +150,4 @@ class Site {
     @required this.city,
     @required this.number,
   });
-}
-
-class City {
-  final String name;
-  final String locationName;
-
-  City._({@required this.name, @required this.locationName});
-
-  factory City.Fremont({@required String location}) =>
-      City._(name: 'Fremont', locationName: location);
-  factory City.Fresno({@required String location}) =>
-      City._(name: 'Fresno', locationName: location);
-
-  String toString() => '$locationName $name';
 }
