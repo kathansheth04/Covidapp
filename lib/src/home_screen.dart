@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'app.dart';
+import 'auth.dart';
 
 String fancyTime(Duration duration) {
   // if >=1d, round
@@ -117,8 +119,15 @@ class HomeScreen extends StatelessWidget {
           ),
           IconButton(
             icon: const Icon(Icons.account_circle),
-            onPressed: () {
-              Navigator.of(context).pushNamed('/login');
+            onPressed: () async {
+              final BaseAuth auth = Provider.of(context);
+              if (auth.getCurrentUser() == null) {
+                print('Logging in');
+                Navigator.of(context).pushNamed('/login');
+              } else {
+                print('Signing out');
+                await auth.signOut();
+              }
             },
           ),
         ],
