@@ -1,8 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:json_annotation/json_annotation.dart';
 import 'package:provider/provider.dart';
 import 'app.dart';
 import 'auth.dart';
+import 'supplies_backend.dart';
+
+part 'home_screen.g.dart';
 
 String fancyTime(Duration duration) {
   // if >=1d, round
@@ -29,7 +33,12 @@ String fancyTime(Duration duration) {
   return '$amt second${amt > 1 ? 's' : ''}';
 }
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  @override
+  HomeScreenState createState() => HomeScreenState();
+}
+
+class HomeScreenState extends State<HomeScreen> {
   final List<Supply> supplies = [
     Supply(
       itemDescription: '12 loaves of bread',
@@ -51,8 +60,12 @@ class HomeScreen extends StatelessWidget {
     ),
   ];
 
-  Widget buildItem(BuildContext context, int index) {
-    final Supply item = supplies[index];
+  Stream<Supply2> _supplies;
+  List<Supply2> _lSupplies = [];
+  bool _hasMore = true;
+
+  Widget buildItem(BuildContext context, Supply2 supply) {
+    final Supply item = supply.supply;
     final TextStyle titleStyle =
         Theme.of(context).textTheme.headline5.copyWith(color: Colors.white);
     final String time = fancyTime(DateTime.now().difference(item.spotted));
@@ -66,7 +79,7 @@ class HomeScreen extends StatelessWidget {
               alignment: AlignmentDirectional.bottomStart,
               children: [
                 Image.network(
-                  item.imageURL,
+                  "https://assets.bonappetit.com/photos/5c62e4a3e81bbf522a9579ce/master/pass/milk-bread.jpg",
                   fit: BoxFit.fitHeight,
                   color: Colors.black.withAlpha(89 /*35%*/),
                   colorBlendMode: BlendMode.darken,
@@ -109,6 +122,20 @@ class HomeScreen extends StatelessWidget {
   }
 
   @override
+  void initState() {
+    super.initState();
+    _supplies = listSupplies();
+    _supplies.listen(
+      (item) => setState(() {
+        _lSupplies.add(item);
+      }),
+      onDone: () => setState(() {
+        _hasMore = false;
+      }),
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
     final BaseAuth auth = Provider.of(context);
     final FirebaseUser user = auth.getCurrentUser();
@@ -143,24 +170,37 @@ class HomeScreen extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.only(top: 8, left: 8, right: 8),
         child: ListView.builder(
-          itemBuilder: buildItem,
-          itemCount: supplies.length,
+          itemBuilder: (_, i) {
+            if (i < _lSupplies.length) {
+              return buildItem(_, _lSupplies[i]);
+            } else {
+              return _hasMore ? Center(
+                child: CircularProgressIndicator(
+                  value: null,
+                ),
+              ) : null;
+            }
+          },
+          itemCount: _lSupplies.length + 1,
         ),
       ),
       bottomNavigationBar: BottomTabBar(
         items: items,
         selectedIndex: 1,
       ),
-      floatingActionButton: user != null ? FloatingActionButton(
-        onPressed: () {
-          Navigator.of(context).pushNamed('/add');
-        },
-        child: const Icon(Icons.add),
-      ) : null,
+      floatingActionButton: user != null
+          ? FloatingActionButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed('/add');
+              },
+              child: const Icon(Icons.add),
+            )
+          : null,
     );
   }
 }
 
+@JsonSerializable(nullable: false)
 class Supply {
   final String itemDescription;
   final DateTime spotted;
@@ -175,21 +215,30 @@ class Supply {
     @required this.username,
     @required this.address,
     @required this.store,
-    @required this.imageURL,
+    this.imageURL,
   });
+
+  factory Supply.fromJson(Map<String, dynamic> json) => _$SupplyFromJson(json);
+
+  Map<String, dynamic> toJson() => _$SupplyToJson(this);
 }
 
+@JsonSerializable(nullable: false)
 class Store {
   final String name;
   final String locationName;
 
-  Store._({@required this.name, @required this.locationName});
+  Store({@required this.name, @required this.locationName});
 
   factory Store.walmart({@required String location}) =>
-      Store._(name: 'Walmart', locationName: location);
+      Store(name: 'Walmart', locationName: location);
 
   factory Store.target({@required String location}) =>
-      Store._(name: 'Target', locationName: location);
+      Store(name: 'Target', locationName: location);
 
   String toString() => '$locationName $name';
+
+  factory Store.fromJson(Map<String, dynamic> json) => _$StoreFromJson(json);
+
+  Map<String, dynamic> toJson() => _$StoreToJson(this);
 }
