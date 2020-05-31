@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
           brightness: Brightness.dark,
           primaryColor: Colors.orangeAccent,
           primarySwatch: Colors.orange
-      ),      ),
+      ),      
       routes: {
         '/login': (_) => LoginScreen(),
         '/register': (_) => RegisterScreen(),
