@@ -8,12 +8,6 @@ Covidapp is the ultimate survival kit during the coronavirus pandemic. As a nati
 * Geolocator used to find the closest Testing site available near the user
 * Firebase Realtime Database used to store list of supplies, make changes of list, and track downvotes so that items with more than 4 downvotes are removed. 
 
-# Video Demonstration of the App
-
-https://drive.google.com/file/d/1p_1Qk-FKiKcvh79bSjl_oMesQSY4Hg3G/view
-
-(download the video from google drive)
-
 # Development Environment and softwares Used
 
 * [Flutter with Dart](https://flutter.dev/)
